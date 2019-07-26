@@ -62,6 +62,7 @@ import java.util.concurrent.TimeUnit;
 import org.tensorflow.lite.examples.classification.customview.AutoFitTextureView;
 import org.tensorflow.lite.examples.classification.env.Logger;
 
+@SuppressLint("ValidFragment")
 public class CameraConnectionFragment extends Fragment {
   private static final Logger LOGGER = new Logger();
 
@@ -351,15 +352,16 @@ public class CameraConnectionFragment extends Fragment {
       // device this code runs.
       // TODO(andrewharp): abstract ErrorDialog/RuntimeException handling out into new method and
       // reuse throughout app.
-      ErrorDialog.newInstance(getString(R.string.camera_error))
+      ErrorDialog.newInstance("This device doesn't support Camera2 API.")
           .show(getChildFragmentManager(), FRAGMENT_DIALOG);
-      throw new RuntimeException(getString(R.string.camera_error));
+      throw new RuntimeException("This device doesn't support Camera2 API.");
     }
 
     cameraConnectionCallback.onPreviewSizeChosen(previewSize, sensorOrientation);
   }
 
   /** Opens the camera specified by {@link CameraConnectionFragment#cameraId}. */
+  @SuppressLint("MissingPermission")
   private void openCamera(final int width, final int height) {
     setUpCameraOutputs();
     configureTransform(width, height);
